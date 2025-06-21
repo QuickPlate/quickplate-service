@@ -1,0 +1,11 @@
+restaurant_service\dto\Customer.class
+restaurant_service\repository\CartItemRepository.class
+restaurant_service\repository\MealRepository.class
+restaurant_service\dto\Order.class
+restaurant_service\controllers\RestaurantController.class
+restaurant_service\dto\Meal.class
+restaurant_service\repository\CustomerRepository.class
+restaurant_service\dto\CartItem.class
+restaurant_service\RestaurantServiceApplication.class
+restaurant_service\service\RestaurantService.class
+restaurant_service\repository\OrderRepository.class
