@@ -13,6 +13,7 @@ public class Meal {
 	private float price;
 	private String description;
 	private String image;
+	private String category;
 	
 	public String getId() {
 		return id;
@@ -43,5 +44,11 @@ public class Meal {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }
