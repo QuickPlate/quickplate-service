@@ -1,3 +1,4 @@
+restaurant_service\config\CorsConfig$1.class
 restaurant_service\dto\Customer.class
 restaurant_service\repository\CartItemRepository.class
 restaurant_service\repository\MealRepository.class
@@ -7,5 +8,6 @@ restaurant_service\dto\Meal.class
 restaurant_service\repository\CustomerRepository.class
 restaurant_service\dto\CartItem.class
 restaurant_service\RestaurantServiceApplication.class
+restaurant_service\config\CorsConfig.class
 restaurant_service\service\RestaurantService.class
 restaurant_service\repository\OrderRepository.class
