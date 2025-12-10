@@ -37,48 +37,46 @@ public class RestaurantService {
 	}
 	
 	public Order createOrder(Order order) {
-		Order newOrder = new Order();
+	    Order newOrder = new Order();
 
-        Customer customer = order.getCustomer(); 
-        Customer customerToLink = null;
+	    String safeEmail = "demo@quickplate.com";
+	    String safeName = "DemoUser";
+	    
+	    Customer customerToLink = null;
+	    Optional<Customer> existingCustomer = customerRepository.findByEmail(safeEmail);
 
-        if (customer != null && customer.getEmail() != null) {
-            Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
+	    if (existingCustomer.isPresent()) {
+	        customerToLink = existingCustomer.get();
+	    } else {
+	        Customer newCustomer = new Customer();
+	        newCustomer.setName(safeName);
+	        newCustomer.setEmail(safeEmail);
+	        customerToLink = customerRepository.save(newCustomer);
+	    }
+	    
+	    newOrder.setCustomer(customerToLink);
+	    
+	    newOrder.setStreet("1234 Demo Lane");
+	    newOrder.setCity("Faketown");
+	    newOrder.setZip("00000");
+	    // --- SECURITY SWAP END ---
 
-            if (existingCustomer.isPresent()) {
-                customerToLink = existingCustomer.get();
-            }
-            else {
-                Customer newCustomer = new Customer();
-                newCustomer.setName(customer.getName());
-                newCustomer.setEmail(customer.getEmail());
-                customerToLink = customerRepository.save(newCustomer);
-            }
-        }
-        else {
-             customerToLink = customerRepository.findById(1).orElseThrow(
-            		 () -> new RuntimeException("Default customer (ID 1) not found!"));
-        }
-        newOrder.setCustomer(customerToLink);
-		newOrder.setStreet(order.getStreet());
-		newOrder.setCity(order.getCity());
-		newOrder.setZip(order.getZip());
-        newOrder = orderRepository.save(newOrder);
+	    newOrder = orderRepository.save(newOrder);
 
-		for (CartItem cartItem : order.getCart()) {
-			CartItem cartItemData = new CartItem();
-			cartItemData.setName(cartItem.getName());
-			cartItemData.setPrice(cartItem.getPrice());
-			cartItemData.setQuantity(cartItem.getQuantity());
+	    for (CartItem cartItem : order.getCart()) {
+	        CartItem cartItemData = new CartItem();
+	        cartItemData.setName(cartItem.getName());
+	        cartItemData.setPrice(cartItem.getPrice());
+	        cartItemData.setQuantity(cartItem.getQuantity());
 
-            Meal meal = mealRepository.findById(cartItem.getMeal().getId())
-                    .orElseThrow(() -> new RuntimeException("Meal not found with ID: " + cartItem.getMeal().getId()));
-            cartItemData.setMeal(meal);
+	        Meal meal = mealRepository.findById(cartItem.getMeal().getId())
+	                .orElseThrow(() -> new RuntimeException("Meal not found with ID: " + cartItem.getMeal().getId()));
+	        cartItemData.setMeal(meal);
 
-			newOrder.addCartItem(cartItemData);
-		}
+	        newOrder.addCartItem(cartItemData);
+	    }
 
-		return orderRepository.save(newOrder);
+	    return orderRepository.save(newOrder);
 	}
 	
 	public List<Customer> getCustomers() {
@@ -88,6 +86,8 @@ public class RestaurantService {
 	
 	public Customer createCustomer(Customer customer) {
 //		if customerRepository.findAll();
+		customer.setName("DemoUser");
+		customer.setEmail("demo@quickplate.com");
 		return customerRepository.save(customer);
 	}
 	
